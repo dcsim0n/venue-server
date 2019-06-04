@@ -17,7 +17,7 @@ def mainloop():
 	s.listen(1)
 	
 	conn, addr = s.accept()
-	print 'Connected by', addr
+	print('Connected by', addr)
 	global scanoffset
 	
 	
@@ -25,75 +25,86 @@ def mainloop():
 		data = conn.recv(1024)
 		if not data:
 			break
-		print data
+		print(data)
 		if data == 'id ?\r':
 			conn.send('OK "VRWB"\r\n')
 			conn.close()
-			print 'closed'
 			break
 		if data == 'rxscan(1) = 1\r':
 			startScan()
-			print "Started scan"
+			print( "Started scan")
 			conn.send('OK \r\n')
-			#conn.close()
-			
+			conn.close()
+			break
 		if data == 'pollsd(1) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
-			#conn.close()
+			conn.close()
+			break
 		if data == 'pollsd(2) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
+			conn.close()
+			break
 		if data == 'pollsd(3) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
+			conn.close()
+			break
 		if data == 'pollsd(4) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
+			conn.close()
+			break
 		if data == 'serial ?\r':
-			print "serial sent"
+			print( "serial sent")
 			conn.send('OK "1234"\r\n')	
-			#conn.close()
-			#break
+			conn.close()
+			break
 	
 		if data == 'version ?\r':
 			conn.send('OK "5.6"\r\n')
-			#conn.close()
-			#break
+			conn.close()
+			break
 		if data == 'block(*) ?\r':
 			conn.send ('OK {23,21,22,24,470,944}\r\n')
-			#conn.close()
-			#break
+			conn.close()
+			break
 		if data == 'bvolts(*) ?\r':
 			batts = [random.randint(100,150),random.randint(110,160),random.randint(110,160),random.randint(110,160),random.randint(700,900),random.randint(700,900)]
 			string = "OK {%d,%d,%d,%d,%d,%d}\r\n" % (batts[0],batts[1],batts[2],batts[3],batts[4],batts[5])
 			conn.send(string)
-			#break
+			conn.close()
+			break
 		if data == 'txbatt(*) ?\r': 
 			#battery type status
 			#time.sleep(2)
 			conn.send('OK {4,4,4,0,0,0}\r\n')
+			conn.close()
+			break
 		if data == 'signal(*) ?\r': 
 			#signal present status
 			conn.send('OK {1,1,1,1,0,1}\r\n')
+			conn.close()
+			break
 		if data == 'rmeter(*) ?\r':
 			
 			rmeters = [random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255)]
 			string = "OK {%d,%d,%d,%d,%d,%d}\r\n" % (rmeters[0],rmeters[1],rmeters[2],rmeters[3],rmeters[4],rmeters[5])
-			conn.send(string)	
+			conn.send(string)
+			conn.close()
+			break			
 		
 		if data == 'mhz(*) ?\r':
 			conn.send('OK {600.0,550.2,583.4,620.5,480.3,950.1}\r\n')
 			conn.close()
-			print 'closed'
-			break
-			#break	
+			break	
 
-		#print 'closed'
+		#print( 'closed')
 		#conn.close()
 		#break 
 	
