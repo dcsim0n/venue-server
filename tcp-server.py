@@ -36,6 +36,42 @@ def mainloop():
 			conn.send('OK \r\n')
 			conn.close()
 			break
+		if data == 'rxscan(2) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
+		if data == 'rxscan(3) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
+		if data == 'rxscan(3) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
+		if data == 'rxscan(4) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
+		if data == 'rxscan(5) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
+		if data == 'rxscan(6) = 1\r':
+			startScan()
+			print( "Started scan")
+			conn.send('OK \r\n')
+			conn.close()
+			break
 		if data == 'pollsd(1) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
@@ -55,6 +91,18 @@ def mainloop():
 			conn.close()
 			break
 		if data == 'pollsd(4) ?\r':
+			newoffset, data = generateScanData(scanoffset)
+			scanoffset = newoffset
+			conn.send(data)
+			conn.close()
+			break
+		if data == 'pollsd(5) ?\r':
+			newoffset, data = generateScanData(scanoffset)
+			scanoffset = newoffset
+			conn.send(data)
+			conn.close()
+			break
+		if data == 'pollsd(6) ?\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
@@ -103,7 +151,9 @@ def mainloop():
 			conn.send('OK {600.0,550.2,583.4,620.5,480.3,950.1}\r\n')
 			conn.close()
 			break	
-
+		else: 
+			conn.close()
+			break
 		#print( 'closed')
 		#conn.close()
 		#break 
