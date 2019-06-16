@@ -119,7 +119,7 @@ def mainloop():
 			conn.close()
 			break
 		if data == 'block(*) ?\r':
-			conn.send ('OK {23,21,22,24,470,944}\r\n')
+			conn.send ('OK {23,25,23,26,23,23}\r\n')
 			conn.close()
 			break
 		if data == 'bvolts(*) ?\r':
@@ -147,8 +147,8 @@ def mainloop():
 			conn.close()
 			break			
 		
-		if data == 'mhz(*) ?\r':
-			conn.send('OK {600.0,550.2,583.4,620.5,480.3,950.1}\r\n')
+		if data == 'mhz(*) ?\r': #{23,25,23,26,23,23}
+			conn.send('OK {600.0,658.0,589.4,672.0,612.2,610.1}\r\n')
 			conn.close()
 			break	
 		else: 
