@@ -134,6 +134,10 @@ def mainloop():
 			conn.send('OK {4,4,4,0,0,0}\r\n')
 			conn.close()
 			break
+		if data == 'level(*) ?\r':
+			conn.send('OK {0,2,3,-4,-10,-3}\r\n')
+			conn.close()
+			break
 		if data == 'signal(*) ?\r': 
 			#signal present status
 			conn.send('OK {1,1,1,1,0,1}\r\n')
