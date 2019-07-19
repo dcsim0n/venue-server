@@ -30,79 +30,79 @@ def mainloop():
 			conn.send('OK "VRWB"\r\n')
 			conn.close()
 			break
-		if data == 'rxscan(1) = 1\r':
+		if data == 'rxscan(1)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(2) = 1\r':
+		if data == 'rxscan(2)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(3) = 1\r':
+		if data == 'rxscan(3)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(3) = 1\r':
+		if data == 'rxscan(3)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(4) = 1\r':
+		if data == 'rxscan(4)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(5) = 1\r':
+		if data == 'rxscan(5)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(6) = 1\r':
+		if data == 'rxscan(6)=1\r':
 			startScan()
 			print( "Started scan")
 			conn.send('OK \r\n')
 			conn.close()
 			break
-		if data == 'pollsd(1) ?\r':
+		if data == 'pollsd(1)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(2) ?\r':
+		if data == 'pollsd(2)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(3) ?\r':
+		if data == 'pollsd(3)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(4) ?\r':
+		if data == 'pollsd(4)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(5) ?\r':
+		if data == 'pollsd(5)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(6) ?\r':
+		if data == 'pollsd(6)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
@@ -110,7 +110,7 @@ def mainloop():
 			break
 		if data == 'serial ?\r':
 			print( "serial sent")
-			conn.send('OK "1234"\r\n')	
+			conn.send('OK "620023"\r\n')	
 			conn.close()
 			break
 	
