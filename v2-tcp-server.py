@@ -40,16 +40,55 @@ def mainloop():
 		if data == 'version ?\r':
 			conn.send('OK "5.6"\r\n')
 			#conn.close()
-			#break
+			break
 		if data == 'portctl(*) ?\r': #port status check
 			conn.send('OK "0,0,3,3,3"\r\n')
 			
 		if data == 'rxblock(*) ?\r':
 			conn.send ('OK {A1,A1,B1,C1,C1,B1}\r\n')
-			#break
+			break
+		if data == 'rxblock(1) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxblock(2) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxblock(3) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxblock(4) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxblock(5) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxblock(6) ?\r':
+			conn.send ('OK "A1"\r\n')
+			break
+		if data == 'rxname(1) ?\r':
+			conn.send ('OK "Test"\r\n')
+			break
+		if data == 'rxname(1) ?\r':
+			conn.send ('OK "Test"\r\n')
+			break
+		if data == 'rxname(2) ?\r':
+			conn.send ('OK "Test"\r\n')
+			break
+		if data == 'rxname(3) ?\r':
+			conn.send ('OK ""\r\n')
+			break
+		if data == 'rxname(4) ?\r':
+			conn.send ('OK ""\r\n')
+			break
+		if data == 'rxname(5) ?\r':
+			conn.send ('OK ""\r\n')
+			break
+		if data == 'rxname(6) ?\r':
+			conn.send ('OK ""\r\n')
+			break
 		if data == 'txblevel(*) ?\r':
 			conn.send('OK {170,160,160,124,130,140}\r\n')
-			#break
+			break
 		if data == 'txblock(1) ?\r':
 			conn.send('OK "21"\r\n')
 		if data == 'txblock(2) ?\r':
@@ -75,22 +114,24 @@ def mainloop():
 			#break
 		if data == 'rxlink(*) ?\r':
 			conn.send('OK {1,1,1,1,1,1}\r\n')	
+			break
 		if data == 'rxrmeter(*) ?\r':
 			conn.send('OK {255,255,180,180,120,120}\r\n')	
+			break
 		if data == 'txbatt(*) ?\r': 
 			#battery type status
 			conn.send('OK {0,0,0,0,0,0}\r\n')
+			break	
 		if data == 'rxfreq(*) ?\r':
 			conn.send('OK {541100,573100,600300,630400,655300,670800}\r\n')
-			conn.close()
 			print("closed")
 			break
 
 
 		
 
-		#conn.close()
-		#break 
+		conn.close()
+		break 
 	
 
 while 1:
