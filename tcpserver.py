@@ -26,8 +26,8 @@ def mainloop():
 		if not data:
 			break
 		print(data)
-		if data == 'id ?\r':
-			conn.send('OK "VRWB"\r\n')
+		if data == b'id ?\r':
+			conn.send(b'OK "VRWB"\r\n')
 			conn.close()
 			break
 		if data == 'rxscan(1)=1\r':
@@ -118,8 +118,8 @@ def mainloop():
 			conn.send('OK "5.6"\r\n')
 			conn.close()
 			break
-		if data == 'block(*) ?\r':
-			conn.send ('OK {23,25,23,26,23,23}\r\n')
+		if data == b'block(*) ?\r':
+			conn.send (b'OK {23,25,23,26,23,23}\r\n')
 			conn.close()
 			break
 		if data == 'bvolts(*) ?\r':
@@ -128,10 +128,10 @@ def mainloop():
 			conn.send(string)
 			conn.close()
 			break
-		if data == 'txbatt(*) ?\r': 
+		if data == b'txbatt(*) ?\r': 
 			#battery type status
 			#time.sleep(2)
-			conn.send('OK {4,4,4,0,0,0}\r\n')
+			conn.send(b'OK {4,4,4,0,0,0}\r\n')
 			conn.close()
 			break
 		if data == 'level(*) ?\r':

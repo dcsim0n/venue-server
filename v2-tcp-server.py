@@ -6,7 +6,7 @@ import os, sys, socket
 
 def mainloop():
 	HOST = ''
-	PORT = 4081
+	PORT = 4080
 	
 
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
