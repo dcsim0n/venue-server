@@ -33,96 +33,96 @@ def mainloop():
 		if data == 'rxscan(1)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(2)=1\r':
+		if data == b'rxscan(2)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(3)=1\r':
+		if data == b'rxscan(3)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(3)=1\r':
+		if data == b'rxscan(3)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(4)=1\r':
+		if data == b'rxscan(4)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(5)=1\r':
+		if data == b'rxscan(5)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'rxscan(6)=1\r':
+		if data == b'rxscan(6)=1\r':
 			startScan()
 			print( "Started scan")
-			conn.send('OK \r\n')
+			conn.send(b'OK \r\n')
 			conn.close()
 			break
-		if data == 'pollsd(1)? $\r':
+		if data == b'pollsd(1)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(2)? $\r':
+		if data == b'pollsd(2)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(3)? $\r':
+		if data == b'pollsd(3)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(4)? $\r':
+		if data == b'pollsd(4)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(5)? $\r':
+		if data == b'pollsd(5)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'pollsd(6)? $\r':
+		if data == b'pollsd(6)? $\r':
 			newoffset, data = generateScanData(scanoffset)
 			scanoffset = newoffset
 			conn.send(data)
 			conn.close()
 			break
-		if data == 'serial ?\r':
+		if data == b'serial ?\r':
 			print( "serial sent")
-			conn.send('OK "620023"\r\n')	
+			conn.send(b'OK "620023"\r\n')	
 			conn.close()
 			break
 	
-		if data == 'version ?\r':
-			conn.send('OK "5.6"\r\n')
+		if data == b'version ?\r':
+			conn.send(b'OK "5.6"\r\n')
 			conn.close()
 			break
 		if data == b'block(*) ?\r':
 			conn.send (b'OK {23,25,23,26,23,23}\r\n')
 			conn.close()
 			break
-		if data == 'bvolts(*) ?\r':
+		if data == b'bvolts(*) ?\r':
 			batts = [random.randint(100,150),random.randint(110,160),random.randint(110,160),random.randint(110,160),random.randint(700,900),random.randint(700,900)]
 			string = "OK {%d,%d,%d,%d,%d,%d}\r\n" % (batts[0],batts[1],batts[2],batts[3],batts[4],batts[5])
 			conn.send(string)
@@ -134,16 +134,16 @@ def mainloop():
 			conn.send(b'OK {4,4,4,0,0,0}\r\n')
 			conn.close()
 			break
-		if data == 'level(*) ?\r':
-			conn.send('OK {0,2,3,-4,-10,-3}\r\n')
+		if data == b'level(*) ?\r':
+			conn.send(b'OK {0,2,3,-4,-10,-3}\r\n')
 			conn.close()
 			break
-		if data == 'signal(*) ?\r': 
+		if data == b'signal(*) ?\r': 
 			#signal present status
-			conn.send('OK {1,1,1,1,0,1}\r\n')
+			conn.send(b'OK {1,1,1,1,0,1}\r\n')
 			conn.close()
 			break
-		if data == 'rmeter(*) ?\r':
+		if data == b'rmeter(*) ?\r':
 			
 			rmeters = [random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255),random.randint(100,255)]
 			string = "OK {%d,%d,%d,%d,%d,%d}\r\n" % (rmeters[0],rmeters[1],rmeters[2],rmeters[3],rmeters[4],rmeters[5])
@@ -151,8 +151,8 @@ def mainloop():
 			conn.close()
 			break			
 		
-		if data == 'mhz(*) ?\r': #{23,25,23,26,23,23}
-			conn.send('OK {600.0,658.0,589.4,672.0,612.2,610.1}\r\n')
+		if data == b'mhz(*) ?\r': #{23,25,23,26,23,23}
+			conn.send(b'OK {600.0,658.0,589.4,672.0,612.2,610.1}\r\n')
 			conn.close()
 			break	
 		else: 
