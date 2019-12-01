@@ -8,20 +8,23 @@ class DeviceABC(socketserver.BaseRequestHandler):
 
 
     def handle(self):
-        print("Receiving data..")
-        data = self.request.recv(1024).strip().decode('utf8')
-        print("Data:", data)
-        req_parts = re.search(r"([a-z]+)(.+)",  data )
-        print(req_parts.group(1))
+        req_data = self.request.recv(1024).strip().decode('utf8')
+        
+        print("Received:", req_data)
 
+        req_parts = re.search(r"([a-z]+)(.+)", req_data )
+        
         try:
             cmd = req_parts.group(1)
-            args = req_parts.group(2)
+            args = re.sub("\s+", "", req_parts.group(2))
+            print("Calling: " + cmd + ", with: " + args)
 
             resp = getattr(self, cmd )(args )
+            resp = f'OK {resp}\r\n'.encode()
         except Exception as err:
             print(err)
-            resp = b'Error\n'    
-        print("Sending: " + resp)
+            resp = b'Error\r\n'    
+
+        print(f"Sending: {resp}")
         self.request.sendall(resp)
 

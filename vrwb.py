@@ -7,7 +7,8 @@ class VRWB(DeviceABC):
         DeviceABC.__init__(self,*args)
 
         print("Creating VRWB device")
-        self.data = {
+        
+    _data = {
             'channels':[
                 {'block': 21, 'freq': 200, 'label': 'none'},
                 {'block': 21, 'freq': 205, 'label': 'none'},
@@ -26,10 +27,10 @@ class VRWB(DeviceABC):
     
     def id(self, args):
         print('pasing:' + str(args))
-        return 'Data...\n'
+        return '"' + self._data['type'] + '"'
 
 
 if __name__ == "__main__":
-    server = socketserver.TCPServer(( 'localhost', 8080 ), VRWB)
+    server = socketserver.TCPServer(( 'localhost', 4080 ), VRWB)
 
     server.serve_forever()
