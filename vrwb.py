@@ -22,11 +22,11 @@ class VRWB(DeviceABC):
 
     def block(self, args):
         print('parsing:' + str(args) )
-
+        return 'Data..\n'
     
     def id(self, args):
         print('pasing:' + str(args))
-    
+        return 'Data...\n'
 
 
 if __name__ == "__main__":
