@@ -8,7 +8,7 @@ class VRWB(DeviceABC):
 
         print("Creating VRWB device")
         
-    _data = { 
+    _data = {
             'channels':[
                 {'block': '23', 'freq': '200.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
                 {'block': '25', 'freq': '205.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
@@ -18,7 +18,7 @@ class VRWB(DeviceABC):
                 {'block': '23', 'freq': '214.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
             ],
             'type': 'VRWB',
-            'serial': '123456'
+            'serial': '620023'
         }
 
     def block(self, args):

@@ -19,7 +19,10 @@ class DeviceABC(socketserver.BaseRequestHandler):
             cmd = req_parts.group(1)
             args = re.sub(r"\s+", "", req_parts.group(2))
             print("Calling: " + cmd + ", with: " + args)
-
+            # incoming data is parsed into two parts
+            # a command string and arguments
+            # the command string is expexted to match the name of a class method
+            # arguments are then passed to the method for more parsing
             resp = getattr(self, cmd )(args )
             resp = f'OK {resp}\r\n'.encode()
         except Exception as err:
