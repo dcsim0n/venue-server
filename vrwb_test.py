@@ -31,7 +31,9 @@ def test_rxscan():
 
 
 def test_pollsd():
-    assert True == False
+    data = sendMsg(b'pollsd(1)? $\r')
+    assert len(data) >= 280
+    assert data[0:2] == b'OK'
 
 
 def test_serial():
