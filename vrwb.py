@@ -51,6 +51,11 @@ class VRWB(DeviceABC):
     def serial(self, args):
         return '"' + self._data['serial'] + '"'
 
+    def pollsd(self, args):
+        return 'Not Implmented'
+    
+    def rxscan(self, args):
+        return 'Not Implementd'
 
 
 if __name__ == "__main__":
