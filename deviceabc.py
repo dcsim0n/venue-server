@@ -17,7 +17,7 @@ class DeviceABC(socketserver.BaseRequestHandler):
         
         try:
             cmd = req_parts.group(1)
-            args = re.sub("\s+", "", req_parts.group(2))
+            args = re.sub(r"\s+", "", req_parts.group(2))
             print("Calling: " + cmd + ", with: " + args)
 
             resp = getattr(self, cmd )(args )
