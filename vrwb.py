@@ -10,12 +10,12 @@ class VRWB(DeviceABC):
         
     _data = { 
             'channels':[
-                {'block': '23', 'freq': '200.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
-                {'block': '25', 'freq': '205.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
-                {'block': '23', 'freq': '206.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
-                {'block': '26', 'freq': '208.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
-                {'block': '23', 'freq': '210.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
-                {'block': '23', 'freq': '214.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0' },
+                {'block': '23', 'freq': '200.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': '25', 'freq': '205.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': '23', 'freq': '206.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': '26', 'freq': '208.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': '23', 'freq': '210.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': '23', 'freq': '214.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
             ],
             'type': 'VRWB',
             'serial': '123456'
