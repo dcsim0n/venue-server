@@ -8,6 +8,7 @@ class DeviceABC(socketserver.BaseRequestHandler):
 
 
     def handle(self):
+        # should we assert that the data is terminated with a \r character? 
         req_data = self.request.recv(1024).strip().decode('utf8')
         
         print("Received:", req_data)

@@ -22,12 +22,10 @@ class VRWB(DeviceABC):
         }
 
     def block(self, args):
-        print('parsing:' + str(args) )
         blocks = map(lambda chan: chan['block'], self._data['channels']) 
         return '{' + ','.join( blocks ) + '}'
 
     def bvolts(self, args): # battery volts
-        print('parsing' + str( args ))
         volts = map(lambda chan: chan['voltage'], self._data['channels'])
         return '{' + ','.join( volts ) + '}'
 
@@ -36,26 +34,23 @@ class VRWB(DeviceABC):
         return '{' + ','.join( bat_types ) + '}'
 
     def level(self, args): # Audio output status
-        print('parsing' + str( args ))
         levels = map(lambda chan: chan['a_level'], self._data['channels'])
         return '{' + ','.join( levels ) + '}'
     
     def signal(self, args): # Pilot tone status
-        print('parsing' + str( args ))
         pilots = map(lambda chan: chan['pilot'], self._data['channels'])
         return '{' + ','.join( pilots ) + '}'
     
     def mhz(self, args): # channel frequency
-        print('parsing' + str( args ))
         freqs = map(lambda chan: chan['freq'], self._data['channels'])
         return '{' + ','.join(freqs) + '}'
 
     def id(self, args):
-        print('pasing:' + str(args))
         return '"' + self._data['type'] + '"'
-    
+
     def serial(self, args):
-        return '"620023"'
+        return '"' + self._data['serial'] + '"'
+
 
 
 if __name__ == "__main__":
