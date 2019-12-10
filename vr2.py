@@ -38,9 +38,9 @@ class VR2(DeviceABC):
         bat_types = map(lambda chan: chan['bat_type'], self._data['channels'])
         return '{' + ','.join( bat_types ) + '}'
 
-    #def level(self, args): # Audio output status
-    #    levels = map(lambda chan: chan['a_level'], self._data['channels'])
-    #    return '{' + ','.join( levels ) + '}'
+    def rxalevel(self, args): # Audio output status
+       levels = map(lambda chan: chan['a_level'], self._data['channels'])
+       return '{' + ','.join( levels ) + '}'
     
     def rxlink(self, args): # Pilot tone status
         pilots = map(lambda chan: chan['pilot'], self._data['channels'])
