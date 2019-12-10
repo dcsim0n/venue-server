@@ -1,5 +1,4 @@
-import re
-import socketserver
+import socketserver, random, re
 from deviceabc import DeviceABC
 
 class VR2(DeviceABC):
@@ -7,8 +6,30 @@ class VR2(DeviceABC):
         DeviceABC.__init__(self,*args)
 
         print("Creating Venue2 device")
+
+        NUMB_OF_BLOCK_STEPS = 1024
         
+        # This is run on each request, could get slow, also we need an offset counter
+        # that would be persisted outside of this class
+
+        # alternative thought is to move scan data in to the TCPServer class
+        
+        for chan in self._data['scan_data']: # intialize scan data
+            for x in range(NUMB_OF_BLOCK_STEPS): # create long array of random ints
+                chan['data'] += "%0.2X" % random.randint(0,239) # convert random integer into two digit hex
+
+        print("Initialized scan data")
+        print(_data)
     _data = { 
+            'scan_data':[ #define empty array of data 
+                {'status':0, 'data': []},
+                {'status':0, 'data': []},
+                {'status':0, 'data': []},
+                {'status':0, 'data': []},
+                {'status':0, 'data': []},
+                {'status':0, 'data': []},
+                
+            ]
             'channels':[
                 {'rxblock': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
                 {'rxblock': 'A1', 'rx_name': 'RX 2', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
@@ -59,6 +80,6 @@ class VR2(DeviceABC):
 
 
 if __name__ == "__main__":
-    server = socketserver.TCPServer(( '0.0.0.0', 4080 ), VRWB)
+    server = socketserver.TCPServer(( '0.0.0.0', 4080 ), VR2)
 
     server.serve_forever()
