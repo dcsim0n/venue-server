@@ -19,7 +19,7 @@ class VR2(DeviceABC):
                 chan['data'] += "%0.2X" % random.randint(0,239) # convert random integer into two digit hex
 
         print("Initialized scan data")
-        print(_data)
+        print(self._data)
     _data = { 
             'scan_data':[ #define empty array of data 
                 {'status':0, 'data': []},
@@ -29,7 +29,7 @@ class VR2(DeviceABC):
                 {'status':0, 'data': []},
                 {'status':0, 'data': []},
                 
-            ]
+            ],
             'channels':[
                 {'rxblock': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
                 {'rxblock': 'A1', 'rx_name': 'RX 2', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
