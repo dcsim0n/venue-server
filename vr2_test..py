@@ -13,9 +13,11 @@ def sendMsg(msg):
 
 
 def test_block():
-    blocks = sendMsg( b'block(*) ?\r' )
-    assert blocks == b'OK {23,25,23,26,23,23}\r\n'
+    blocks = sendMsg( b'rxblock(*) ?\r' )
+    assert blocks == b'OK {A1,A1,A1,A1,A1,A1}\r\n'
 
+def test_rxname():
+    pass
 def test_bvolts():
     bvolts = sendMsg( b'bvolts(*) ?\r' )
     assert bvolts == b'OK {128,128,128,128,128,128}'
@@ -23,13 +25,14 @@ def test_bvolts():
 def test_bat():
     bat = sendMsg(b'txbatt(*) ?\r') 
     assert bat == b'OK {4,4,4,0,0,0}\r\n'
+
 def test_level():
     levels = sendMsg(b'level(*) ?\r')
     assert levels == b'OK {0,0,0,0,0,0}'
 
-def test_signal():
+def test_rxlink():
     pass
-def test_mhz():
+def test_rxfreq():
     pass
 
 def test_id():
@@ -44,9 +47,7 @@ def test_rxscan():
 
 
 def test_pollsd():
-    data = sendMsg(b'pollsd(1)? $\r')
-    assert len(data) >= 280
-    assert data[0:2] == b'OK'
+    assert True == False
 
 
 def test_serial():
