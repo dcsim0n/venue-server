@@ -42,6 +42,17 @@ class VR2( DeviceABC ):
     def serial(self, args):
         return '"' + self._data['serial'] + '"'
 
+    def rxscan(self, args):
+        m = re.match(r'\(([1-6])\)=([01])',args) # match the channel 
+        if m:
+            channel = m.group(1)
+            toggle = m.group(2)
+            self.server.toggle_scan_status(channel,toggle)
+        else:
+            m = re.match(r'\([1-6\*]\)\?$', args) # match for (1)? and (*)? type requests
+            
+        return ""
+
 
 
 if __name__ == "__main__":

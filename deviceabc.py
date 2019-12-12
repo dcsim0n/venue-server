@@ -52,12 +52,12 @@ class DeviceServer( socketserver.TCPServer ):
 
     _device_data = { 
             'scan_data':[ #define empty array of data 
-                {'status':0, 'data': []},
-                {'status':0, 'data': []},
-                {'status':0, 'data': []},
-                {'status':0, 'data': []},
-                {'status':0, 'data': []},
-                {'status':0, 'data': []},
+                {'status':0, 'data': [], 'offset':0, 'status': 0},
+                {'status':0, 'data': [], 'offset':0, 'status': 0},
+                {'status':0, 'data': [], 'offset':0, 'status': 0},
+                {'status':0, 'data': [], 'offset':0, 'status': 0},
+                {'status':0, 'data': [], 'offset':0, 'status': 0},
+                {'status':0, 'data': [], 'offset':0, 'status': 0}
                 
             ],
             'channels':[
@@ -71,3 +71,5 @@ class DeviceServer( socketserver.TCPServer ):
             'type': 'VRM2WB',
             'serial': '123456'
         }
+    def togle_scan_status(self, channel, status):
+        self._device_data[channel - 1] = int(status)
