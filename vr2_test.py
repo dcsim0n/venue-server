@@ -19,16 +19,16 @@ def test_block():
 def test_rxname():
     pass
 def test_bvolts():
-    bvolts = sendMsg( b'bvolts(*) ?\r' )
-    assert bvolts == b'OK {128,128,128,128,128,128}'
+    bvolts = sendMsg( b'txblevel(*) ?\r' )
+    assert bvolts == b'OK {128,128,128,128,128,128}\r\n'
 
 def test_bat():
     bat = sendMsg(b'txbatt(*) ?\r') 
     assert bat == b'OK {4,4,4,0,0,0}\r\n'
 
 def test_level():
-    levels = sendMsg(b'level(*) ?\r')
-    assert levels == b'OK {0,0,0,0,0,0}'
+    levels = sendMsg(b'rxalevel(*) ?\r')
+    assert levels == b'OK {0,0,0,0,0,0}\r\n'
 
 def test_rxlink():
     pass
@@ -37,7 +37,7 @@ def test_rxfreq():
 
 def test_id():
     id = sendMsg( b'id ?\r' )
-    assert id == b'OK "VRWB"\r\n'
+    assert id == b'OK "VRM2WB"\r\n'
 
 
 
@@ -52,4 +52,4 @@ def test_pollsd():
 
 def test_serial():
     data = sendMsg(b'serial ?\r')
-    assert data == b'OK "620023"\r\n'
+    assert data == b'OK "123456"\r\n'
