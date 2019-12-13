@@ -33,7 +33,7 @@ class DeviceABC(socketserver.BaseRequestHandler):
             resp = f'OK {resp}\r\n'.encode()
         except Exception as err:
             print(err)
-            resp = b'Error\r\n'    
+            resp = b'Error\r\n'
 
         print(f"Sending: {resp}")
         self.request.sendall(resp)
@@ -43,26 +43,54 @@ class DeviceServer( socketserver.TCPServer ):
 
         print("Creating Venue2 device")
 
-        BLOCK_SIZE = 674
+        self.BLOCK_SIZE = 674
+        self.CHUNK_SIZE = 15
 
         socketserver.TCPServer.__init__(self,*args,**kwargs)
         for chan in self._device_data['channels']: # intialize scan data
-            for x in range(BLOCK_SIZE): # create long array of random ints
-                chan['data'] += "%0.2X" % random.randint(0,239) # convert random integer into two digit hex
+            for x in range(self.BLOCK_SIZE): # create long array of random ints
+                chan['data'].append( random.randint(0,239) )
 
     _device_data = { 
                 
             'channels':[
-                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 2', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 4', 'freq': '200100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 6', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'B1', 'rx_name': 'RX 2', 'freq': '200200', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200300', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'C1', 'rx_name': 'RX 4', 'freq': '200400', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210500', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 6', 'freq': '210600', 'label': 'none', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
             ],
             'type': 'VRM2WB',
             'serial': '123456'
         }
     def toggle_scan_status(self, channel, status):
+        assert type(channel) == int, "channel must be of type: int"
+        assert type(status) == int, "status must be of type: int"
         # set the 'scan_status' key of the appropriate channel
-        self._device_data['channels'][int(channel) - 1]['scan_stat'] = int(status) 
+        self._device_data['channels'][channel - 1]['scan_stat'] = status
+
+    def get_scan_chunk(self, channel):
+        assert type(channel) == int, "channel must be of type: int"
+
+        scan_data = self._device_data['channels'][channel]['data']        
+        curr_offset = self._device_data['channels'][channel]['scan_idx']
+        next_offset = curr_offset + self.CHUNK_SIZE
+        print("Start index:", curr_offset)
+        print("Next index:", next_offset)
+
+        # increment offset index, and wrap around if we reach the end
+        self._device_data['channels'][channel]['scan_idx'] = next_offset % self.BLOCK_SIZE
+
+        empty_header = "0" * 264
+        offset_chunk = "{0:04X}".format( curr_offset )
+        scan_length = self.CHUNK_SIZE
+        scan_chunk = ''
+        for i in range(curr_offset, next_offset):
+            idx = i % self.BLOCK_SIZE # calculate circular array index
+            print("Index:", idx)
+            scan_chunk += "{0:02X}".format( scan_data[idx] ) # convert into two character hex
+        print
+        
+        return "$" + empty_header + offset_chunk + scan_chunk
+             
