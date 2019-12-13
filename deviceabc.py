@@ -59,7 +59,7 @@ class DeviceServer( socketserver.TCPServer ):
                 {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200300', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
                 {'block': 'C1', 'rx_name': 'RX 4', 'freq': '200400', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
                 {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210500', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 6', 'freq': '210600', 'label': 'none', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'B1', 'rx_name': 'RX 6', 'freq': '210600', 'label': 'none', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
             ],
             'type': 'VRM2WB',
             'serial': '123456'
@@ -76,19 +76,15 @@ class DeviceServer( socketserver.TCPServer ):
         scan_data = self._device_data['channels'][channel]['data']        
         curr_offset = self._device_data['channels'][channel]['scan_idx']
         next_offset = curr_offset + self.CHUNK_SIZE
-        print("Start index:", curr_offset)
-        print("Next index:", next_offset)
 
         # increment offset index, and wrap around if we reach the end
         self._device_data['channels'][channel]['scan_idx'] = next_offset % self.BLOCK_SIZE
 
         empty_header = "0" * 264
         offset_chunk = "{0:04X}".format( curr_offset )
-        scan_length = self.CHUNK_SIZE
         scan_chunk = ''
         for i in range(curr_offset, next_offset):
             idx = i % self.BLOCK_SIZE # calculate circular array index
-            print("Index:", idx)
             scan_chunk += "{0:02X}".format( scan_data[idx] ) # convert into two character hex
         print
         

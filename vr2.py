@@ -7,8 +7,10 @@ class VR2( DeviceABC ):
     # even though they are external functions, they should
     # be called as part of a try/except block 
     def rxblock(self, args):
-        blocks = map(lambda chan: chan['block'], self._data['channels']) 
-        return '{' + ','.join( blocks ) + '}'
+        m = re.match(r'\(([1-6])\)\?',args)
+        channel = int( m.group(1) )
+
+        return '"' + self._data['channels'][channel - 1]['block'] + '"'
     
     def rxname(self, args):
         #parse args to get channel

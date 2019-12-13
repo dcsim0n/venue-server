@@ -20,8 +20,10 @@ def sendMsg(msg):
 
 
 def test_block():
-    blocks = sendMsg( b'rxblock(*) ?\r' )
-    assert blocks == b'OK {A1,A1,A1,A1,A1,A1}\r\n'
+    blocks = sendMsg( b'rxblock(1) ?\r' )
+    assert blocks == b'OK "A1"\r\n'
+    blocks = sendMsg( b'rxblock(6) ?')
+    assert blocks == b'OK "B1"\r\n'
 
 def test_rxname():
     pass
@@ -31,7 +33,7 @@ def test_bvolts():
 
 def test_bat():
     bat = sendMsg(b'txbatt(*) ?\r') 
-    assert bat == b'OK {4,4,4,0,0,0}\r\n'
+    assert bat == b'OK {0,0,0,0,0,1}\r\n'
 
 def test_level():
     levels = sendMsg(b'rxalevel(*) ?\r')
