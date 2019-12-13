@@ -10,7 +10,7 @@ class DeviceABC(socketserver.BaseRequestHandler):
     
 
     @property
-    def _data(self):
+    def _data(self): #put here to avoid changing references in the Sub Class
         return self.server._device_data
     
     def handle(self):
@@ -46,30 +46,23 @@ class DeviceServer( socketserver.TCPServer ):
         NUMB_OF_BLOCK_STEPS = 674
 
         socketserver.TCPServer.__init__(self,*args,**kwargs)
-        for chan in self._device_data['scan_data']: # intialize scan data
+        for chan in self._device_data['channels']: # intialize scan data
             for x in range(NUMB_OF_BLOCK_STEPS): # create long array of random ints
                 chan['data'] += "%0.2X" % random.randint(0,239) # convert random integer into two digit hex
 
     _device_data = { 
-            'scan_data':[ #define empty array of data 
-                {'status':0, 'data': [], 'offset':0, 'status': 0},
-                {'status':0, 'data': [], 'offset':0, 'status': 0},
-                {'status':0, 'data': [], 'offset':0, 'status': 0},
-                {'status':0, 'data': [], 'offset':0, 'status': 0},
-                {'status':0, 'data': [], 'offset':0, 'status': 0},
-                {'status':0, 'data': [], 'offset':0, 'status': 0}
                 
-            ],
             'channels':[
-                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 2', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 4', 'freq': '200100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 6', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 2', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200100', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 4', 'freq': '200100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 6', 'freq': '210100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
             ],
             'type': 'VRM2WB',
             'serial': '123456'
         }
-    def togle_scan_status(self, channel, status):
-        self._device_data[channel - 1] = int(status)
+    def toggle_scan_status(self, channel, status):
+        # set the 'scan_status' key of the appropriate channel
+        self._device_data['channels'][int(channel) - 1]['scan_stat'] = int(status) 
