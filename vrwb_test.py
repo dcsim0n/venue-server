@@ -18,14 +18,14 @@ def test_block():
 
 def test_bvolts():
     bvolts = sendMsg( b'bvolts(*) ?\r' )
-    assert bvolts == b'OK {128,128,128,128,128,128}'
+    assert bvolts == b'OK {128,128,128,128,128,128}\r\n'
 
 def test_bat():
     bat = sendMsg(b'txbatt(*) ?\r') 
     assert bat == b'OK {4,4,4,0,0,0}\r\n'
 def test_level():
     levels = sendMsg(b'level(*) ?\r')
-    assert levels == b'OK {0,0,0,0,0,0}'
+    assert levels == b'OK {0,0,0,0,0,0}\r\n'
 
 def test_signal():
     pass
