@@ -1,13 +1,20 @@
 #------------------------------------
 #Test module for WB Venue
 #------------------------------------
-import pytest, socket
+import pytest, socket, ast
 
 def sendMsg(msg):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect( ('localhost',4080) )
             s.sendall( msg )
-            data = s.recv(1024)
+            
+            data = b''
+            while True:
+              chunk = s.recv(1024)
+              if not chunk:
+                break
+              data += chunk
+            
             s.close()
             return data
 
@@ -42,13 +49,22 @@ def test_id():
 
 
 def test_rxscan():
+    data = sendMsg(b'devicedata?\r')[3:] #send and strip out the first three characters: 'OK '
+    device_data = ast.literal_eval( data.decode() )
+    assert device_data['channels'][1]['scan_stat'] == 0
+    
     data = sendMsg(b'rxscan(2)=1\r')
     assert data == b'OK \r\n'
+    
+    data = sendMsg(b'devicedata?\r')[3:] #send and strip out the first three characters: 'OK '
+    device_data = ast.literal_eval( data.decode() )
+    assert device_data['channels'][1]['scan_stat'] == 1
 
 
 def test_pollsd():
-    assert True == False
-
+    data = sendMsg(b'pollsd(1)? $\r')
+    assert len(data) >= 280
+    assert data[0:2] == b'OK'
 
 def test_serial():
     data = sendMsg(b'serial ?\r')
