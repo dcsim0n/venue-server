@@ -2,14 +2,14 @@ import socketserver, random, re
 from deviceabc import DeviceABC,DeviceServer
 
 class VR2( DeviceABC ):
-#    def __init__(self,*args):
-#        DeviceABC.__init__(self,*args)
 
-    
-
+    # I Dont recomend adding assertions to these
+    # even though they are external functions, they should
+    # be called as part of a try/except block 
     def rxblock(self, args):
         blocks = map(lambda chan: chan['block'], self._data['channels']) 
         return '{' + ','.join( blocks ) + '}'
+    
     def rxname(self, args):
         #parse args to get channel
         channel = re.search(r"\((\d)\)\?", args).group(1)
@@ -44,14 +44,30 @@ class VR2( DeviceABC ):
 
     def rxscan(self, args):
         m = re.match(r'\(([1-6])\)=([01])',args) # match the channel 
-        if m:
-            channel = m.group(1)
-            toggle = m.group(2)
-            self.server.toggle_scan_status(channel,toggle)
-        else:
-            m = re.match(r'\([1-6\*]\)\?$', args) # match for (1)? and (*)? type requests
-            
-        return ""
+        channel = m.group(1)
+        toggle = m.group(2)
+        self.server.toggle_scan_status(channel,toggle)
+        #else:
+        #    m = re.match(r'\([1-6\*]\)\?$', args) # match for (1)? and (*)? type requests
+        # 
+        return ''
+    def pollsd(self, args):
+        m = re.match(r'\(([1-6])\?\$)',args)
+        channel = m.group(1)
+        curr_offset = self.server._device_data['channels']['offset_idx']
+        next_offset = curr_offset + 14
+        self.server._device_data['channels']['offset_idx'] = next_offset
+        chunk = self.server._device_data['channels']['data']
+        # Build response block
+        # Ok status
+        # 264 chars of dummy data
+        # 4 chars of offset data
+        # windowed scan data
+
+
+
+    def devicedata(self,args):
+        return self.server._device_data
 
 
 
