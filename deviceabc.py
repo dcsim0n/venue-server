@@ -43,11 +43,11 @@ class DeviceServer( socketserver.TCPServer ):
 
         print("Creating Venue2 device")
 
-        NUMB_OF_BLOCK_STEPS = 674
+        BLOCK_SIZE = 674
 
         socketserver.TCPServer.__init__(self,*args,**kwargs)
         for chan in self._device_data['channels']: # intialize scan data
-            for x in range(NUMB_OF_BLOCK_STEPS): # create long array of random ints
+            for x in range(BLOCK_SIZE): # create long array of random ints
                 chan['data'] += "%0.2X" % random.randint(0,239) # convert random integer into two digit hex
 
     _device_data = { 
