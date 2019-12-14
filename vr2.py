@@ -67,6 +67,19 @@ class VR2( DeviceABC ):
 
 
 if __name__ == "__main__":
-    server = DeviceServer(( '0.0.0.0', 4080 ), VR2)
+    device_data = { 
+                
+            'channels':[
+                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'B1', 'rx_name': 'RX 2', 'freq': '200200', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200300', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'C1', 'rx_name': 'RX 4', 'freq': '200400', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210500', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'B1', 'rx_name': 'RX 6', 'freq': '210600', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+            ],
+            'type': 'VRM2WB',
+            'serial': '123456'
+        }
+    server = DeviceServer(( '0.0.0.0', 4080 ), VR2, device_data=device_data)
 
     server.serve_forever()

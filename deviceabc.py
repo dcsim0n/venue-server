@@ -3,7 +3,7 @@
 # 2019 Dana Simmons
 #***************************
 
-import re, random, socketserver
+import re, random, socketserver, schema
 
 
 class DeviceABC(socketserver.BaseRequestHandler):
@@ -39,7 +39,7 @@ class DeviceABC(socketserver.BaseRequestHandler):
         self.request.sendall(resp)
 
 class DeviceServer( socketserver.TCPServer ):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, device_data:dict , **kwargs):
 
         print("Creating Venue2 device")
 
@@ -47,23 +47,14 @@ class DeviceServer( socketserver.TCPServer ):
         self.CHUNK_SIZE = 15
 
         socketserver.TCPServer.__init__(self,*args,**kwargs)
+        
+        assert 'channels' in device_data.keys(), 'device_data must have channels'
+        self._device_data = device_data
         for chan in self._device_data['channels']: # intialize scan data
             for x in range(self.BLOCK_SIZE): # create long array of random ints
                 chan['data'].append( random.randint(0,239) )
 
-    _device_data = { 
-                
-            'channels':[
-                {'block': 'A1', 'rx_name': 'RX 1', 'freq': '200100', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'B1', 'rx_name': 'RX 2', 'freq': '200200', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200300', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'C1', 'rx_name': 'RX 4', 'freq': '200400', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210500', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'B1', 'rx_name': 'RX 6', 'freq': '210600', 'label': 'none', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-            ],
-            'type': 'VRM2WB',
-            'serial': '123456'
-        }
+    
     def toggle_scan_status(self, channel, status):
         assert type(channel) == int, "channel must be of type: int"
         assert type(status) == int, "status must be of type: int"

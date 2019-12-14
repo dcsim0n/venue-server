@@ -1,6 +1,6 @@
 
-import socketserver
-from deviceabc import DeviceABC
+import re
+from deviceabc import DeviceABC, DeviceServer
 
 class VRWB(DeviceABC):
     def __init__(self,*args):
@@ -8,18 +8,6 @@ class VRWB(DeviceABC):
 
         print("Creating VRWB device")
         
-    _data = {
-            'channels':[
-                {'block': '23', 'freq': '200.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': '25', 'freq': '205.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': '23', 'freq': '206.0', 'label': 'none', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': '26', 'freq': '208.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': '23', 'freq': '210.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-                {'block': '23', 'freq': '214.0', 'label': 'none', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'scan_stat': False, 'scan_idx': 0},
-            ],
-            'type': 'VRWB',
-            'serial': '620023'
-        }
 
     def block(self, args):
         blocks = map(lambda chan: chan['block'], self._data['channels']) 
@@ -52,13 +40,32 @@ class VRWB(DeviceABC):
         return '"' + self._data['serial'] + '"'
 
     def pollsd(self, args):
-        return 'Not Implmented'
+        m = re.match(r'\(([1-6])\)\?\$',args)
+        channel = int( m.group(1) )
+        
+        return self.server.get_scan_chunk( channel )
     
     def rxscan(self, args):
-        return 'Not Implementd'
-
+        m = re.match(r'\(([1-6])\)=([01])',args) # match the channel 
+        channel = int( m.group(1) )
+        toggle = int ( m.group(2) )
+        self.server.toggle_scan_status(channel,toggle)
+        return ''
 
 if __name__ == "__main__":
-    server = socketserver.TCPServer(( '0.0.0.0', 4080 ), VRWB)
+
+    device_data = {
+            'channels':[
+                {'block': '23', 'freq': '200.0', 'rx_name': 'RX 1', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': '25', 'freq': '205.0', 'rx_name': 'RX 2', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': '23', 'freq': '206.0', 'rx_name': 'RX 3', 'bat_type': '4', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': '26', 'freq': '208.0', 'rx_name': 'RX 4', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': '23', 'freq': '210.0', 'rx_name': 'RX 5', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': '23', 'freq': '214.0', 'rx_name': 'RX 6', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data':[], 'scan_stat': 0, 'scan_idx': 0},
+            ],
+            'type': 'VRWB',
+            'serial': '620023'
+        }
+    server = DeviceServer(( '0.0.0.0', 4080 ), VRWB, device_data=device_data )
 
     server.serve_forever()
