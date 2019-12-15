@@ -3,7 +3,8 @@
 # 2019 Dana Simmons
 #***************************
 
-import re, random, socketserver, schema
+import re, random, socketserver
+from schema import Schema
 
 
 class DeviceABC(socketserver.BaseRequestHandler):
@@ -48,7 +49,24 @@ class DeviceServer( socketserver.TCPServer ):
 
         socketserver.TCPServer.__init__(self,*args,**kwargs)
         
-        assert 'channels' in device_data.keys(), 'device_data must have channels'
+        schema = Schema({
+            'channels':[{
+                'block': str,
+                'freq':str, 
+                'rx_name': str, 
+                'bat_type': str, 
+                'voltage': str, 
+                'pilot': str, 
+                'a_level': str, 
+                'data':[], 
+                'scan_stat': int, 
+                'scan_idx': int
+            }],
+            'type': str,
+            'serial': str
+        })
+        schema.validate(device_data) # check structure of device data
+
         self._device_data = device_data
         for chan in self._device_data['channels']: # intialize scan data
             for x in range(self.BLOCK_SIZE): # create long array of random ints
