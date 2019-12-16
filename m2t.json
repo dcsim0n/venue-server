@@ -1,0 +1,16 @@
+{"methods": [
+  "id",
+  "serial",
+  "rxaflim",
+  "rxafbal",
+  "rxalim",
+  "txrfname",
+  "txrffreq",
+  "txaftype",
+  "txafname",
+  "txmutetog",
+  "txrfpwr",
+  "rxir"
+]
+
+}
