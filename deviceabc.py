@@ -82,12 +82,12 @@ class DeviceServer( socketserver.TCPServer ):
     def get_scan_chunk(self, channel):
         assert type(channel) == int, "channel must be of type: int"
 
-        scan_data = self._device_data['channels'][channel]['data']        
-        curr_offset = self._device_data['channels'][channel]['scan_idx']
+        scan_data = self._device_data['channels'][channel - 1]['data']        
+        curr_offset = self._device_data['channels'][channel - 1]['scan_idx']
         next_offset = curr_offset + self.CHUNK_SIZE
 
         # increment offset index, and wrap around if we reach the end
-        self._device_data['channels'][channel]['scan_idx'] = next_offset % self.BLOCK_SIZE
+        self._device_data['channels'][channel - 1]['scan_idx'] = next_offset % self.BLOCK_SIZE
 
         empty_header = "0" * 264
         offset_chunk = "{0:04X}".format( curr_offset )

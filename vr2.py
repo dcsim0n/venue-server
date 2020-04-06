@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 {'block': 'A1', 'rx_name': 'RX 3', 'freq': '200300', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
                 {'block': 'C1', 'rx_name': 'RX 4', 'freq': '200400', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
                 {'block': 'A1', 'rx_name': 'RX 5', 'freq': '210500', 'bat_type': '0', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
-                {'block': 'B1', 'rx_name': 'RX 6', 'freq': '210600', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
+                {'block': 'B2', 'rx_name': 'RX 6', 'freq': '210600', 'bat_type': '1', 'voltage': '128', 'pilot':'1', 'a_level': '0', 'data': [], 'scan_stat': 0, 'scan_idx': 0},
             ],
             'type': 'VRM2WB',
             'serial': '123456'
